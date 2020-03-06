@@ -50,6 +50,11 @@ public class ClienteGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.setProperty("javax.net.debug", "ssl,handshake");
+		System.setProperty("javax.net.ssl.keyStore", "src/certs/client/clientKey.jks");
+		System.setProperty("javax.net.ssl.keyStorePassword", "patata");
+		System.setProperty("javax.net.ssl.trustStore", "src/certs/client/clientTrustedCerts.jks");
+		System.setProperty("javax.net.ssl.trustStorePassword", "patata");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

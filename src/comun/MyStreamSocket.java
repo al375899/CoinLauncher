@@ -16,13 +16,14 @@ public class MyStreamSocket extends Socket {
 	private Socket socket;
 	private BufferedReader input;
 	private PrintWriter output;
+	private SSLSocketFactory clientFactory;
 
 	public MyStreamSocket(InetAddress acceptorHost, int acceptorPort) throws SocketException, IOException {
 
 		try {
-			socket = new Socket(acceptorHost, acceptorPort);
-			//SSLSocketFactory clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-			//socket = clientFactory.createSocket(acceptorHost, acceptorPort);
+			clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();// NEW SSL
+			socket = clientFactory.createSocket(acceptorHost, acceptorPort);// NEW SSL
+			// socket = new Socket(acceptorHost, acceptorPort);//NO SSL
 			setStreams();
 		} catch (Exception e) {
 			e.printStackTrace();

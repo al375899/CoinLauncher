@@ -1,0 +1,12 @@
+#Abrir cmd
+cd C:\Program Files\Java\jre1.8.0_241\bin
+
+#SERVIDOR
+keytool -genkey -keyalg RSA -alias coinLauncherSERV -keystore serverKey.jks -validity 10000
+keytool -export -keystore serverkey.jks -alias coinLauncherSERV -file ServerPublicKey.cer
+keytool -import -alias coinLauncherSERV -file ServerPublicKey.cer -keystore clientTrustedCerts.jks
+
+#CLIENTE
+keytool -genkey -keyalg RSA -alias coinLauncherCLI -keystore clientKey.jks -validity 10000
+keytool -export -keystore clientKey.jks -alias coinLauncherCLI -file ClientPublicKey.cer
+keytool -import -alias coinLauncherCLI -file ClientPublicKey.cer -keystore serverTrustedCerts.jks

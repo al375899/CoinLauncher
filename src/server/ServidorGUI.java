@@ -32,6 +32,11 @@ public class ServidorGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.setProperty("javax.net.debug", "ssl,handshake");
+		System.setProperty("javax.net.ssl.keyStore", "src/certs/server/serverKey.jks");
+		System.setProperty("javax.net.ssl.keyStorePassword", "patata");
+		System.setProperty("javax.net.ssl.trustStore", "src/certs/server/serverTrustedCerts.jks");
+		System.setProperty("javax.net.ssl.trustStorePassword", "patata");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

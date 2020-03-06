@@ -13,12 +13,12 @@ public class Servidor {
 
 	// Variables del servidor
 	int puertoServidor;
-	ServerSocket miSocketConexion;
+	ServerSocket serverSocket;
 	MyStreamSocket miSocketDatos;
 	LinkedList<MyStreamSocket> listaClienteSockets = new LinkedList<>(); // listado de clientes
 
 	// SSL
-	// SSLServerSocketFactory serverFactory;
+	SSLServerSocketFactory serverFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
 	public Servidor() {
 		super();
@@ -27,14 +27,6 @@ public class Servidor {
 	public Servidor(int puertoServidor) {
 		super();
 		this.puertoServidor = puertoServidor;
-
-		// System.setProperty("javax.net.ssl.keyStore",
-		// "src/main/certs/server/serverKey.jks");
-		// System.setProperty("javax.net.ssl.keyStorePassword", "servpass");
-		// System.setProperty("javax.net.ssl.trustStore",
-		// "src/main/certs/server/serverTrustedCerts.jks");
-		// System.setProperty("javax.net.ssl.trustStorePassword", "servpass");
-		// serverFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 	}
 
 	public void iniciar() {
@@ -44,9 +36,8 @@ public class Servidor {
 		try {
 			// Instanciar un socket stream para aceptar las conexiones
 
-			// miSocketConexion = serverFactory.createServerSocket(puertoServidor); // CON
-			// SSL
-			miSocketConexion = new ServerSocket(puertoServidor); // SIN SSL
+			// serverSocket = new ServerSocket(puertoServidor); // SIN SSL
+			serverSocket = serverFactory.createServerSocket(puertoServidor); // NEW SSL
 
 			String ip = InetAddress.getLocalHost().getHostAddress().toString();
 			System.out.println("Servidor listo en " + ip + ":" + puertoServidor);
@@ -56,7 +47,7 @@ public class Servidor {
 				// Esperar para aceptar una conexion
 				System.out.println("Esperando una conexion.");
 
-				miSocketDatos = new MyStreamSocket(miSocketConexion.accept());
+				miSocketDatos = new MyStreamSocket(serverSocket.accept());
 				System.out.println("Conexion aceptada");
 
 				// Guardamos el cliente en la lista para luego poder cerrarlos todos:
@@ -78,7 +69,7 @@ public class Servidor {
 
 		try {
 			// Cerramos el socket servidor
-			miSocketConexion.close();
+			serverSocket.close();
 
 			// Cerramos las conexiones con todos los clientes
 			for (MyStreamSocket conexionCliente : listaClienteSockets) {

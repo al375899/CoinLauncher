@@ -2,11 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.SocketException;
-
-import javax.net.ssl.SSLSocketFactory;
-
 import comun.HashGenerator;
 import comun.MyStreamSocket;
 
@@ -17,7 +13,6 @@ public class AuxiliarCliente {
 	private int serverPort;
 	private String hostname;
 
-
 	public AuxiliarCliente(String hostname, int serverPort) {
 		this.hostname = hostname;
 		this.serverPort = serverPort;
@@ -26,12 +21,11 @@ public class AuxiliarCliente {
 	public boolean conectar() throws SocketException, IOException {
 		try {
 			serverHost = InetAddress.getByName(hostname);
-			this.serverPort = serverPort;
 			socket = new MyStreamSocket(serverHost, serverPort);
 			return true;
 		} catch (Exception e) {
 			System.out.println("La conexion con el serverSocket ha fallado des del cliente");
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return false;
 		}
 	}
