@@ -11,10 +11,12 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import comun.Moneda;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JRadioButton;
 
 public class ClienteGUI {
 
@@ -45,12 +47,15 @@ public class ClienteGUI {
 	private String hashServidor;
 	private String hashCliente;
 	private String moneda; // cara o cruz
+	private JRadioButton rdbtnCara;
+	private JRadioButton rdbtnCruz;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		System.setProperty("javax.net.debug", "ssl,handshake");
+
+		// System.setProperty("javax.net.debug", "ssl,handshake");
 		System.setProperty("javax.net.ssl.keyStore", "src/certs/client/clientKey.jks");
 		System.setProperty("javax.net.ssl.keyStorePassword", "patata");
 		System.setProperty("javax.net.ssl.trustStore", "src/certs/client/clientTrustedCerts.jks");
@@ -85,7 +90,7 @@ public class ClienteGUI {
 		frmCoinlauncher.setTitle("Cliente coinLauncher ");
 		frmCoinlauncher
 				.setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteGUI.class.getResource("/img/coin.png")));
-		frmCoinlauncher.setBounds(100, 100, 357, 464);
+		frmCoinlauncher.setBounds(100, 100, 357, 513);
 		frmCoinlauncher.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCoinlauncher.getContentPane().setLayout(null);
 
@@ -101,7 +106,7 @@ public class ClienteGUI {
 		img_moneda = new JLabel("");
 		img_moneda.setIcon(new ImageIcon(ClienteGUI.class.getResource("/img/sin_lanzar.png")));
 		img_moneda.setEnabled(true);
-		img_moneda.setBounds(110, 205, 134, 162);
+		img_moneda.setBounds(104, 255, 134, 162);
 		frmCoinlauncher.getContentPane().add(img_moneda);
 
 		// PUERTO
@@ -133,17 +138,17 @@ public class ClienteGUI {
 		// ETIQUETAS PARA MOSTRAR EL HASH
 		lblHashServidor = new JLabel(" ");
 		lblHashServidor.setHorizontalAlignment(SwingConstants.LEFT);
-		lblHashServidor.setBounds(12, 359, 327, 16);
+		lblHashServidor.setBounds(12, 410, 327, 16);
 		frmCoinlauncher.getContentPane().add(lblHashServidor);
 
 		lblHashCliente = new JLabel(" ");
 		lblHashCliente.setHorizontalAlignment(SwingConstants.LEFT);
-		lblHashCliente.setBounds(12, 374, 327, 16);
+		lblHashCliente.setBounds(12, 425, 327, 16);
 		frmCoinlauncher.getContentPane().add(lblHashCliente);
 
 		lblHashIsOk = new JLabel(" ");
 		lblHashIsOk.setHorizontalAlignment(SwingConstants.LEFT);
-		lblHashIsOk.setBounds(12, 388, 284, 16);
+		lblHashIsOk.setBounds(12, 439, 284, 16);
 		frmCoinlauncher.getContentPane().add(lblHashIsOk);
 		// --------------------------------------
 
@@ -158,6 +163,35 @@ public class ClienteGUI {
 		lbl_EstadoConexin.setFont(new Font("Arial", Font.BOLD, 16));
 		lbl_EstadoConexin.setBounds(12, 137, 152, 16);
 		frmCoinlauncher.getContentPane().add(lbl_EstadoConexin);
+
+		// BOTONES APUESTA
+		rdbtnCara = new JRadioButton("Cara");
+		rdbtnCara.setEnabled(false);
+		rdbtnCara.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (rdbtnCara.isSelected()) {
+					btn_tirarMoneda.setEnabled(true);
+				}
+			}
+		});
+		rdbtnCara.setBounds(216, 184, 74, 25);
+		frmCoinlauncher.getContentPane().add(rdbtnCara);
+
+		rdbtnCruz = new JRadioButton("Cruz");
+		rdbtnCruz.setEnabled(false);
+		rdbtnCruz.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (rdbtnCruz.isSelected()) {
+					btn_tirarMoneda.setEnabled(true);
+				}
+			}
+		});
+		rdbtnCruz.setBounds(126, 184, 64, 25);
+		frmCoinlauncher.getContentPane().add(rdbtnCruz);
+
+		ButtonGroup bgroup = new ButtonGroup();
+		bgroup.add(rdbtnCruz);
+		bgroup.add(rdbtnCara);
 
 		// CONECTAR
 		btn_conectar = new JButton("Conectar");
@@ -186,16 +220,19 @@ public class ClienteGUI {
 						btn_conectar.setEnabled(false);
 						btn_estado.setBackground(Color.GREEN);
 						btn_desconectar.setEnabled(true);
-						btn_tirarMoneda.setEnabled(true);
-					
+						rdbtnCara.setEnabled(true);
+						rdbtnCruz.setEnabled(true);
+
 					} else {
 						btn_estado.setBackground(Color.RED);
-						JOptionPane.showMessageDialog(null, "Conexión fallida", "Conexion con el servidor", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Conexión fallida", "Conexion con el servidor",
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 				} catch (Exception e2) {
 					textField_port.setText("");
-					JOptionPane.showMessageDialog(null, "La ip o el puerto son incorrectos", "Configuracion con el servidor incorrecta", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "La ip o el puerto son incorrectos",
+							"Configuracion con el servidor incorrecta", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -230,7 +267,7 @@ public class ClienteGUI {
 						hashServidor = resultados[1];
 						hashCliente = resultados[2];
 
-						//mostrar los hashes
+						// mostrar los hashes
 						lblHashServidor.setText("Hash servidor: " + hashServidor);
 						lblHashCliente.setText("Hash cliente: " + hashServidor);
 
@@ -245,12 +282,33 @@ public class ClienteGUI {
 
 						if (moneda.equals("cara")) {
 							img_moneda.setIcon(new ImageIcon(ClienteGUI.class.getResource("/img/cara.png")));
+
+							if (rdbtnCara.isSelected()) {
+								JOptionPane.showMessageDialog(null,
+										"¡Has ganado!", "Resultado",
+										JOptionPane.PLAIN_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Mala suerte...",
+										"Resultado", JOptionPane.ERROR_MESSAGE);
+							}
+
 						} else if (moneda.equals("cruz")) {
 							img_moneda.setIcon(new ImageIcon(ClienteGUI.class.getResource("/img/cruz.png")));
+
+							if (rdbtnCruz.isSelected()) {
+								JOptionPane.showMessageDialog(null,
+										"¡Has ganado!", "Resultado",
+										JOptionPane.PLAIN_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Mala suerte...",
+										"Resultado", JOptionPane.ERROR_MESSAGE);
+							}
+
 						} else {
 							JOptionPane.showMessageDialog(null, "Error al lanzar la moneda", "Error",
 									JOptionPane.ERROR_MESSAGE);
 						}
+
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Error al lanzar la moneda, conexión con el servidor finalizada", "Error",
@@ -258,14 +316,22 @@ public class ClienteGUI {
 						desconectar();
 					}
 
+					bgroup.clearSelection();
+					btn_tirarMoneda.setEnabled(false);
+
 				} catch (Exception e2) {
 				}
 
 			}
 		});
 		btn_tirarMoneda.setFont(new Font("Arial", Font.PLAIN, 36));
-		btn_tirarMoneda.setBounds(12, 179, 313, 39);
+		btn_tirarMoneda.setBounds(12, 223, 313, 39);
 		frmCoinlauncher.getContentPane().add(btn_tirarMoneda);
+
+		JLabel lblSuApuesta = new JLabel("Su apuesta");
+		lblSuApuesta.setFont(new Font("Arial", Font.BOLD, 16));
+		lblSuApuesta.setBounds(12, 187, 152, 16);
+		frmCoinlauncher.getContentPane().add(lblSuApuesta);
 	}
 
 	public void desconectar() {
@@ -282,10 +348,13 @@ public class ClienteGUI {
 			lblHashServidor.setText("");
 			lblHashCliente.setText("");
 			lblHashIsOk.setText("");
+
+			rdbtnCara.setEnabled(false);
+			rdbtnCruz.setEnabled(false);
+
 		} else {
 			JOptionPane.showMessageDialog(null, "Error al desconectar, cierra el cliente des de la X",
 					"Configuracion del servidor", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
 }

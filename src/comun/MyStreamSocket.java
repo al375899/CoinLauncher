@@ -2,6 +2,7 @@ package comun;
 
 import java.net.*;
 
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 import java.io.*;
@@ -21,12 +22,11 @@ public class MyStreamSocket extends Socket {
 	public MyStreamSocket(InetAddress acceptorHost, int acceptorPort) throws SocketException, IOException {
 
 		try {
+			// socket = new Socket(acceptorHost, acceptorPort);//NO SSL
 			clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();// NEW SSL
 			socket = clientFactory.createSocket(acceptorHost, acceptorPort);// NEW SSL
-			// socket = new Socket(acceptorHost, acceptorPort);//NO SSL
 			setStreams();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}

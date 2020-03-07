@@ -15,6 +15,7 @@ public class Cliente {
 	public boolean conectar(String ip, int puerto) {
 		try {
 			aux = new AuxiliarCliente(ip, puerto);
+			
 			if (aux.conectar()) {
 				System.out.println("Un cliente se ha conectado a " + ip + ":" + puerto);
 				return true;

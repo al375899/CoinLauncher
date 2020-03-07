@@ -22,10 +22,13 @@ public class AuxiliarCliente {
 		try {
 			serverHost = InetAddress.getByName(hostname);
 			socket = new MyStreamSocket(serverHost, serverPort);
+			
+			//comprobar que el socket se ha conectado al servidor, si no, salta excepcion
+			socket.sendMessage("99");
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("La conexion con el serverSocket ha fallado des del cliente");
-			// e.printStackTrace();
 			return false;
 		}
 	}
@@ -40,6 +43,7 @@ public class AuxiliarCliente {
 	}
 
 	public String lanzarMoneda() {
+		
 		String resultado = "";
 		try {
 			socket.sendMessage("1");
