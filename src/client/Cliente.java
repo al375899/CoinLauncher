@@ -1,9 +1,5 @@
 package client;
 
-import java.io.IOException;
-import java.net.ConnectException;
-import java.util.Scanner;
-
 public class Cliente {
 
 	AuxiliarCliente aux;

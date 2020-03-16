@@ -103,11 +103,12 @@ public class ServidorGUI {
 
 					// Estado servidor: VERDE
 					btn_status.setBackground(Color.GREEN);
+					
 					// Activamos/desactivamos varios botones
 					btn_iniciar.setEnabled(false);
 					btn_stop.setEnabled(true);
 					textField_puerto.setEditable(false);
-					;
+					
 
 				} catch (NumberFormatException e2) {
 					textField_puerto.setText("");

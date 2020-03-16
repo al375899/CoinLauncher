@@ -1,6 +1,5 @@
 package server;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.LinkedList;
@@ -37,7 +36,7 @@ public class Servidor {
 			// Instanciar un socket stream para aceptar las conexiones
 
 			// serverSocket = new ServerSocket(puertoServidor); // SIN SSL
-			serverSocket = serverFactory.createServerSocket(puertoServidor); // NEW SSL
+			serverSocket = serverFactory.createServerSocket(puertoServidor); // SSL
 
 			String ip = InetAddress.getLocalHost().getHostAddress().toString();
 			System.out.println("Servidor listo en " + ip + ":" + puertoServidor);

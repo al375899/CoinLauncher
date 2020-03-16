@@ -40,8 +40,9 @@ public class ClienteGUI {
 	private String ip;
 	private int puerto;
 
-	// Lanzamiento moneda
+	// variables lanzamiento moneda
 	private String resultados[]; // valor#hash_servidor#hash_cliente
+	
 	// Guardamos el array resultados en variables separadas:
 	private int lanzamiento; // valor entre 0 y 100.000
 	private String hashServidor;
@@ -55,7 +56,7 @@ public class ClienteGUI {
 	 */
 	public static void main(String[] args) {
 
-		// System.setProperty("javax.net.debug", "ssl,handshake");
+		// System.setProperty("javax.net.debug", "ssl,handshake"); //Para debugear
 		System.setProperty("javax.net.ssl.keyStore", "src/certs/client/clientKey.jks");
 		System.setProperty("javax.net.ssl.keyStorePassword", "patata");
 		System.setProperty("javax.net.ssl.trustStore", "src/certs/client/clientTrustedCerts.jks");

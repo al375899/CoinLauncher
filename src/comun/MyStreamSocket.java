@@ -1,18 +1,10 @@
 package comun;
 
 import java.net.*;
-
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-
 import java.io.*;
 
-/**
- * A wrapper class of Socket which contains methods for sending and receiving
- * messages
- * 
- * @author M. L. Liu
- */
+
 public class MyStreamSocket extends Socket {
 	private Socket socket;
 	private BufferedReader input;
@@ -23,8 +15,8 @@ public class MyStreamSocket extends Socket {
 
 		try {
 			// socket = new Socket(acceptorHost, acceptorPort);//NO SSL
-			clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();// NEW SSL
-			socket = clientFactory.createSocket(acceptorHost, acceptorPort);// NEW SSL
+			clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();// SSL
+			socket = clientFactory.createSocket(acceptorHost, acceptorPort);// SSL
 			setStreams();
 		} catch (Exception e) {
 		}
